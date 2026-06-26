@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400,0..1,0&display=block" rel="stylesheet">
+<style>
+:root{
+  --background:oklch(1 0 0);--foreground:oklch(0.145 0 0);
+  --card:oklch(1 0 0);--card-foreground:oklch(0.145 0 0);
+  --popover:oklch(1 0 0);--popover-foreground:oklch(0.145 0 0);
+  --primary:oklch(0.205 0 0);--primary-foreground:oklch(0.985 0 0);
+  --secondary:oklch(0.97 0 0);--secondary-foreground:oklch(0.205 0 0);
+  --muted:oklch(0.97 0 0);--muted-foreground:oklch(0.556 0 0);
+  --accent:oklch(0.97 0 0);--accent-foreground:oklch(0.205 0 0);
+  --destructive:oklch(0.577 0.245 27.325);--destructive-foreground:oklch(0.985 0 0);
+  --border:oklch(0.922 0 0);--input:oklch(0.922 0 0);--ring:oklch(0.708 0 0);
+  --md-xs:4px;--md-sm:8px;--md-md:12px;--md-lg:16px;--md-xl:28px;--md-full:9999px;
+  --md-e1:0 1px 2px 0 rgba(0,0,0,.30),0 1px 3px 1px rgba(0,0,0,.15);
+  --md-e2:0 1px 2px 0 rgba(0,0,0,.30),0 2px 6px 2px rgba(0,0,0,.15);
+  --md-e3:0 1px 3px 0 rgba(0,0,0,.30),0 4px 8px 3px rgba(0,0,0,.15);
+  --md-e4:0 2px 3px 0 rgba(0,0,0,.30),0 6px 10px 4px rgba(0,0,0,.15);
+}
+.dark{
+  --background:oklch(0.145 0 0);--foreground:oklch(0.985 0 0);
+  --card:oklch(0.205 0 0);--card-foreground:oklch(0.985 0 0);
+  --popover:oklch(0.205 0 0);--popover-foreground:oklch(0.985 0 0);
+  --primary:oklch(0.922 0 0);--primary-foreground:oklch(0.205 0 0);
+  --secondary:oklch(0.269 0 0);--secondary-foreground:oklch(0.985 0 0);
+  --muted:oklch(0.269 0 0);--muted-foreground:oklch(0.708 0 0);
+  --accent:oklch(0.269 0 0);--accent-foreground:oklch(0.985 0 0);
+  --destructive:oklch(0.704 0.191 22.216);--destructive-foreground:oklch(0.985 0 0);
+  --border:oklch(1 0 0 / 12%);--input:oklch(1 0 0 / 15%);--ring:oklch(0.556 0 0);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+.msr{font-family:'Material Symbols Rounded';font-weight:normal;font-style:normal;line-height:1;letter-spacing:normal;text-transform:none;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;direction:ltr;-webkit-font-feature-settings:'liga';font-feature-settings:'liga';-webkit-font-smoothing:antialiased;font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;user-select:none}
+.fill{font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24}
+.md-ripple-host{position:relative;overflow:hidden}
+.md-ripple{position:absolute;border-radius:50%;transform:scale(0);pointer-events:none;background:currentColor;opacity:.16;animation:md-ripple .55s cubic-bezier(0.2,0,0,1) forwards}
+@keyframes md-ripple{to{transform:scale(2.4);opacity:0}}
+@keyframes md-spin{to{transform:rotate(360deg)}}
+@keyframes md-dash{0%{stroke-dasharray:1,150;stroke-dashoffset:0}50%{stroke-dasharray:90,150;stroke-dashoffset:-35}100%{stroke-dasharray:90,150;stroke-dashoffset:-124}}
+@keyframes md-linear{0%{left:-35%;right:100%}60%{left:100%;right:-90%}100%{left:100%;right:-90%}}
+@keyframes md-pop{from{opacity:0;transform:translateY(8px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes md-fade{from{opacity:0}to{opacity:1}}
+@keyframes md-snack{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes md-sheet{from{transform:translateX(100%)}to{transform:none}}
+</style>
+</helmet>
+
+<div id="md3root" ref="{{ _setRoot }}" class="{{ themeClass }}" style="min-height:100vh;background:var(--background);color:var(--foreground);font-family:Roboto,system-ui,sans-serif;-webkit-font-smoothing:antialiased">
+
+  <header style="position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:16px;height:64px;padding:0 20px;background:color-mix(in srgb,var(--background) 86%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)">
+    <span class="msr fill" style="font-size:28px;color:var(--primary)">deployed_code</span>
+    <div style="display:flex;flex-direction:column;line-height:1.15">
+      <span style="font:500 17px/20px Roboto;letter-spacing:.1px">Material&nbsp;3 <span style="color:var(--muted-foreground);font-weight:400">for</span> shadcn</span>
+      <span style="font:400 11px/14px 'Roboto Mono';color:var(--muted-foreground)">md3-registry · v1.0.0</span>
+    </div>
+    <div style="flex:1"></div>
+    <a href="#" onClick="{{ noop }}" style="display:flex;align-items:center;gap:7px;height:36px;padding:0 14px;border-radius:var(--md-full);border:1px solid var(--border);color:var(--foreground);text-decoration:none;font:500 13px Roboto">
+      <span class="msr" style="font-size:18px">terminal</span>npx shadcn add
+    </a>
+    <button class="md-ripple-host" data-ripple="rgba(120,120,120,.5)" onClick="{{ toggleTheme }}" aria-label="Toggle theme" style="display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border:none;border-radius:var(--md-full);background:transparent;color:var(--foreground);cursor:pointer">
+      <span class="msr" style="font-size:22px">{{ themeIcon }}</span>
+    </button>
+  </header>
+
+  <main style="max-width:1180px;margin:0 auto;padding:44px 24px 120px">
+
+    <!-- INTRO -->
+    <section style="margin-bottom:64px">
+      <div style="display:inline-flex;align-items:center;gap:8px;height:28px;padding:0 12px;border-radius:var(--md-full);background:var(--secondary);color:var(--secondary-foreground);font:500 12px 'Roboto Mono';margin-bottom:20px">
+        <span style="width:7px;height:7px;border-radius:50%;background:#16a34a"></span>registry-compatible
+      </div>
+      <h1 style="margin:0 0 16px;font:400 52px/56px Roboto;letter-spacing:-1px;max-width:760px">Google's Material 3, wearing shadcn's tokens.</h1>
+      <p style="margin:0;max-width:600px;font:400 17px/26px Roboto;color:var(--muted-foreground)">A faithful Material Design 3 component spec — state layers, ripples, tonal elevation, shape & motion — built on the neutral shadcn CSS-variable palette and installable via the CLI.</p>
+    </section>
+
+    <!-- TYPOGRAPHY -->
+    <h2 data-screen-label="Typography" style="font:500 13px 'Roboto Mono';letter-spacing:.16em;text-transform:uppercase;color:var(--muted-foreground);margin:0 0 24px;padding-bottom:14px;border-bottom:1px solid var(--border)">Type scale</h2>
+    <section style="display:grid;grid-template-columns:1fr;gap:2px;margin-bottom:64px">
+      <sc-for list="{{ typeScale }}" as="t" hint-placeholder-count="5">
+        <div style="display:flex;align-items:baseline;gap:24px;padding:14px 0;border-bottom:1px solid var(--border)">
+          <span style="flex:0 0 120px;font:400 12px 'Roboto Mono';color:var(--muted-foreground)">{{ t.token }}</span>
+          <span style="flex:1;color:var(--foreground);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:{{ t.css }}">{{ t.sample }}</span>
+          <span style="flex:0 0 90px;text-align:right;font:400 12px 'Roboto Mono';color:var(--muted-foreground)">{{ t.size }}</span>
+        </div>
+      </sc-for>
+    </section>
+
+    <!-- COLOR ROLES -->
+    <h2 data-screen-label="Color" style="font:500 13px 'Roboto Mono';letter-spacing:.16em;text-transform:uppercase;color:var(--muted-foreground);margin:0 0 24px;padding-bottom:14px;border-bottom:1px solid var(--border)">Color roles</h2>
+    <section style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;margin-bottom:64px">
+      <sc-for list="{{ colorRoles }}" as="c" hint-placeholder-count="8">
+        <div style="border:1px solid var(--border);border-radius:var(--md-md);overflow:hidden">
+          <div style="height:64px;background:{{ c.bg }}"></div>
+          <div style="padding:10px 12px">
+            <div style="font:500 13px Roboto">{{ c.name }}</div>
+            <div style="font:400 11px 'Roboto Mono';color:var(--muted-foreground);margin-top:2px">{{ c.var }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </section>
+
+    <!-- BUTTONS -->
+    <h2 data-screen-label="Buttons" style="font:500 13px 'Roboto Mono';letter-spacing:.16em;text-transform:uppercase;color:var(--muted-foreground);margin:0 0 24px;padding-bottom:14px;border-bottom:1px solid var(--border)">Common buttons</h2>
+    <section style="display:flex;flex-direction:column;gap:32px;margin-bottom:48px">
+      <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center">
+        <button class="md-ripple-host" data-ripple="var(--primary-foreground)" onClick="{{ noop }}" style="position:relative;display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 24px;border:none;border-radius:var(--md-full);background:var(--primary);color:var(--primary-foreground);box-shadow:var(--md-e1);font:500 14px Roboto;letter-spacing:.1px;cursor:pointer">Elevated</button>
+        <button class="md-ripple-host" data-ripple="var(--primary-foreground)" onClick="{{ noop }}" style="position:relative;display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 24px;border:none;border-radius:var(--md-full);background:var(--primary);color:var(--primary-foreground);font:500 14px Roboto;letter-spacing:.1px;cursor:pointer">Filled</button>
+        <button class="md-ripple-host" data-ripple="var(--secondary-foreground)" onClick="{{ noop }}" style="position:relative;display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 24px;border:none;border-radius:var(--md-full);background:var(--secondary);color:var(--secondary-foreground);font:500 14px Roboto;letter-spacing:.1px;cursor:pointer">Tonal</button>
+        <button class="md-ripple-host" data-ripple="var(--primary)" onClick="{{ noop }}" style="position:relative;display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 24px;border:1px solid var(--border);border-radius:var(--md-full);background:transparent;color:var(--foreground);font:500 14px Roboto;letter-spacing:.1px;cursor:pointer">Outlined</button>
+        <button class="md-ripple-host" data-ripple="var(--primary)" onClick="{{ noop }}" style="position:relative;display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px;border:none;border-radius:var(--md-full);background:transparent;color:var(--foreground);font:500 14px Roboto;letter-spacing:.1px;cursor:pointer">Text</button>
+        <button class="md-ripple-host" data-ripple="var(--primary-foreground)" onClick="{{ noop }}" style="position:relative;display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 24px 0 16px;border:none;border-radius:var(--md-full);background:var(--primary);color:var(--primary-foreground);font:500 14px Roboto;letter-spacing:.1px;cursor:pointer"><span class="msr" style="font-size:18px">add</span>With icon</button>
+        <button disabled style="display:inline-flex;align-items:center;height:40px;padding:0 24px;border:none;border-radius:var(--md-full);background:color-mix(in srgb,var(--foreground) 12%,transparent);color:color-mix(in srgb,var(--foreground) 38%,transparent);font:500 14px Roboto;cursor:not-allowed">Disabled</button>
+      </div>
+
+      <!-- ICON BUTTONS + FAB -->
+      <div style="display:flex;flex-wrap:wrap;gap:18px;align-items:center">
+        <button class="md-ripple-host" data-ripple="var(--primary-foreground)" onClick="{{ noop }}" style="position:relative;display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border:none;border-radius:var(--md-full);background:var(--primary);color:var(--primary-foreground);cursor:pointer"><span class="msr" style="font-size:20px">favorite</span></button>
+        <button class="md-ripple-host" data-ripple="var(--secondary-foreground)" onClick="{{ noop }}" style="position:relative;display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border:none;border-radius:var(--md-full);background:var(--secondary);color:var(--secondary-foreground);cursor:pointer"><span class="msr" style="font-size:20px">bookmark</span></button>
+        <button class="md-ripple-host" data-ripple="var(--primary)" onClick="{{ noop }}" style="position:relative;display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border:1px solid var(--border);border-radius:var(--md-full);background:transparent;color:var(--foreground);cursor:pointer"><span class="msr" style="font-size:20px">settings</span></button>
+        <button class="md-ripple-host" data-ripple="var(--primary)" onClick="{{ noop }}" style="position:relative;display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border:none;border-radius:var(--md-full);background:transparent;color:var(--foreground);cursor:pointer"><span class="msr" style="font-size:20px">more_vert</span></button>
+        <div style="width:1px;height:40px;background:var(--border)"></div>
+        <button class="md-ripple-host" data-ripple="var(--primary-foreground)" onClick="{{ noop }}" style="position:relative;display:inline-flex;align-items:center;justify-content:center;width:56px;height:56px;border:none;border-radius:var(--md-lg);background:var(--secondary);color:var(--secondary-foreground);box-shadow:var(--md-e3);cursor:pointer"><span class="msr" style="font-size:24px">add</span></button>
+        <button class="md-ripple-host" data-ripple="var(--primary-foreground)" onClick="{{ noop }}" style="position:relative;display:inline-flex;align-items:center;gap:12px;height:56px;padding:0 20px;border:none;border-radius:var(--md-lg);background:var(--primary);color:var(--primary-foreground);box-shadow:var(--md-e3);font:500 14px Roboto;cursor:pointer"><span class="msr" style="font-size:24px">edit</span>Extended FAB</button>
+      </div>
+    </section>
+
+    <!-- CHIPS -->
+    <h2 data-screen-label="Chips" style="font:500 13px 'Roboto Mono';letter-spacing:.16em;text-transform:uppercase;color:var(--muted-foreground);margin:0 0 24px;padding-bottom:14px;border-bottom:1px solid var(--border)">Chips</h2>
+    <section style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:64px">
+      <sc-for list="{{ chips }}" as="ch" hint-placeholder-count="5">
+        <button class="md-ripple-host" data-ripple="var(--foreground)" onClick="{{ ch.toggle }}" style="position:relative;display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 16px;border-radius:var(--md-sm);font:500 14px Roboto;cursor:pointer;background:{{ ch.bg }};color:{{ ch.color }};border:1px solid {{ ch.borderColor }}">
+          <sc-if value="{{ ch.selected }}" hint-placeholder-val="{{ true }}"><span class="msr" style="font-size:18px">check</span></sc-if>
+          {{ ch.label }}
+        </button>
+      </sc-for>
+    </section>
+
+    <!-- SELECTION CONTROLS -->
+    <h2 data-screen-label="Selection" style="font:500 13px 'Roboto Mono';letter-spacing:.16em;text-transform:uppercase;color:var(--muted-foreground);margin:0 0 24px;padding-bottom:14px;border-bottom:1px solid var(--border)">Selection controls</h2>
+    <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:32px;margin-bottom:32px">
+      <!-- Switch -->
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <span style="font:500 13px 'Roboto Mono';color:var(--muted-foreground)">Switch</span>
+        <button onClick="{{ toggleSwitch }}" role="switch" aria-checked="{{ switchOn }}" style="position:relative;width:52px;height:32px;border:2px solid;border-radius:var(--md-full);padding:0;cursor:pointer;transition:background .2s,border-color .2s;background:{{ switchTrackBg }};border-color:{{ switchTrackBorder }}">
+          <span style="position:absolute;top:50%;border-radius:50%;transition:all .22s cubic-bezier(0.2,0,0,1);display:flex;align-items:center;justify-content:center;left:{{ switchThumbLeft }};width:{{ switchThumbSize }};height:{{ switchThumbSize }};transform:{{ switchThumbTransform }};background:{{ switchThumbBg }}">
+            <sc-if value="{{ switchOn }}" hint-placeholder-val="{{ true }}"><span class="msr" style="font-size:16px;color:var(--primary)">check</span></sc-if>
+          </span>
+        </button>
+      </div>
+      <!-- Checkbox -->
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <span style="font:500 13px 'Roboto Mono';color:var(--muted-foreground)">Checkbox</span>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <sc-for list="{{ checkboxes }}" as="cb" hint-placeholder-count="3">
+            <label onClick="{{ cb.toggle }}" style="display:flex;align-items:center;gap:12px;cursor:pointer;font:400 14px Roboto">
+              <span class="md-ripple-host" data-ripple="var(--primary)" style="display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:2px;border:2px solid;transition:all .15s;background:{{ cb.bg }};border-color:{{ cb.borderColor }}">
+                <sc-if value="{{ cb.checked }}" hint-placeholder-val="{{ true }}"><span class="msr fill" style="font-size:16px;color:var(--primary-foreground)">check</span></sc-if>
+              </span>{{ cb.label }}
+            </label>
+          </sc-for>
+        </div>
+      </div>
+      <!-- Radio -->
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <span style="font:500 13px 'Roboto Mono';color:var(--muted-foreground)">Radio</span>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <sc-for list="{{ radios }}" as="r" hint-placeholder-count="3">
+            <label onClick="{{ r.select }}" style="display:flex;align-items:center;gap:12px;cursor:pointer;font:400 14px Roboto">
+              <span style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;border:2px solid;transition:border-color .15s;border-color:{{ r.borderColor }}">
+                <sc-if value="{{ r.selected }}" hint-placeholder-val="{{ true }}"><span style="width:10px;height:10px;border-radius:50%;background:var(--primary)"></span></sc-if>
+              </span>{{ r.label }}
+            </label>
+          </sc-for>
+        </div>
+      </div>
+      <!-- Slider -->
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <span style="font:500 13px 'Roboto Mono';color:var(--muted-foreground)">Slider · {{ sliderVal }}</span>
+        <div onMouseDown="{{ sliderDown }}" style="position:relative;height:20px;display:flex;align-items:center;cursor:pointer;touch-action:none">
+          <div style="position:absolute;left:0;right:0;height:4px;border-radius:2px;background:var(--secondary)"></div>
+          <div style="position:absolute;left:0;height:4px;border-radius:2px;background:var(--primary);width:{{ sliderPct }}"></div>
+          <div style="position:absolute;width:18px;height:18px;border-radius:50%;background:var(--primary);box-shadow:var(--md-e1);transform:translateX(-50%);transition:left .02s;left:{{ sliderPct }}"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TEXT FIELDS -->
+    <h2 data-screen-label="TextFields" style="font:500 13px 'Roboto Mono';letter-spacing:.16em;text-transform:uppercase;color:var(--muted-foreground);margin:48px 0 24px;padding-bottom:14px;border-bottom:1px solid var(--border)">Text fields</h2>
+    <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;margin-bottom:64px;max-width:780px">
+      <!-- Filled -->
+      <div style="position:relative">
+        <div style="position:relative;height:56px;border-radius:var(--md-xs) var(--md-xs) 0 0;background:var(--secondary);border-bottom:2px solid var(--primary)">
+          <span style="position:absolute;left:16px;top:8px;font:400 12px Roboto;color:var(--primary)">Label</span>
+          <input value="Filled field" onChange="{{ noop }}" style="position:absolute;inset:0;width:100%;padding:24px 16px 8px;background:transparent;border:none;outline:none;font:400 16px Roboto;color:var(--foreground)" />
+        </div>
+        <div style="font:400 12px Roboto;color:var(--muted-foreground);padding:4px 16px 0">Supporting text</div>
+      </div>
+      <!-- Outlined -->
+      <div style="position:relative">
+        <div style="position:relative;height:56px;border-radius:var(--md-xs);border:2px solid var(--primary)">
+          <span style="position:absolute;left:12px;top:-8px;padding:0 4px;background:var(--background);font:400 12px Roboto;color:var(--primary)">Label</span>
+          <input value="Outlined field" onChange="{{ noop }}" style="position:absolute;inset:0;width:100%;padding:0 16px;background:transparent;border:none;outline:none;font:400 16px Roboto;color:var(--foreground)" />
+        </div>
+        <div style="font:400 12px Roboto;color:var(--muted-foreground);padding:4px 16px 0">Supporting text</div>
+      </div>
+      <!-- Error -->
+      <div style="position:relative">
+        <div style="position:relative;height:56px;border-radius:var(--md-xs);border:2px solid var(--destructive)">
+          <span style="position:absolute;left:12px;top:-8px;padding:0 4px;background:var(--background);font:400 12px Roboto;color:var(--destructive)">Email</span>
+          <input value="not-an-email" onChange="{{ noop }}" style="position:absolute;inset:0;width:100%;padding:0 44px 0 16px;background:transparent;border:none;outline:none;font:400 16px Roboto;color:var(--foreground)" />
+          <span class="msr" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:20px;color:var(--destructive)">error</span>
+        </div>
+        <div style="font:400 12px Roboto;color:var(--destructive);padding:4px 16px 0">Enter a valid email</div>
+      </div>
+    </section>
+
+    <!-- CARDS + ELEVATION -->
+    <h2 data-screen-label="Cards" style="font:500 13px 'Roboto Mono';letter-spacing:.16em;text-transform:uppercase;color:var(--muted-foreground);margin:0 0 24px;padding-bottom:14px;border-bottom:1px solid var(--border)">Cards &amp; elevation</h2>
+    <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-bottom:40px">
+      <div style="border-radius:var(--md-md);background:var(--card);box-shadow:var(--md-e1);overflow:hidden">
+        <div style="height:120px;background:var(--secondary)"></div>
+        <div style="padding:16px"><div style="font:500 16px Roboto;margin-bottom:6px">Elevated card</div><div style="font:400 14px/20px Roboto;color:var(--muted-foreground)">Shadow-based elevation level 1.</div></div>
+      </div>
+      <div style="border-radius:var(--md-md);background:var(--secondary);overflow:hidden">
+        <div style="height:120px;background:color-mix(in srgb,var(--foreground) 8%,var(--secondary))"></div>
+        <div style="padding:16px"><div style="font:500 16px Roboto;margin-bottom:6px">Filled card</div><div style="font:400 14px/20px Roboto;color:var(--muted-foreground)">Tonal surface, no shadow.</div></div>
+      </div>
+      <div style="border-radius:var(--md-md);background:var(--card);border:1px solid var(--border);overflow:hidden">
+        <div style="height:120px;background:var(--secondary)"></div>
+        <div style="padding:16px"><div style="font:500 16px Roboto;margin-bottom:6px">Outlined card</div><div style="font:400 14px/20px Roboto;color:var(--muted-foreground)">1px border, flat.</div></div>
+      </div>
+    </section>
+    <section style="display:flex;flex-wrap:wrap;gap:18px;margin-bottom:64px">
+      <sc-for list="{{ elevations }}" as="e" hint-placeholder-count="5">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:10px">
+          <div style="width:96px;height:72px;border-radius:var(--md-md);background:var(--card);box-shadow:{{ e.shadow }}"></div>
+          <span style="font:400 11px 'Roboto Mono';color:var(--muted-foreground)">{{ e.label }}</span>
+        </div>
+      </sc-for>
+    </section>
+
+    <!-- OVERLAYS: dialog / menu / snackbar / tooltip -->
+    <h2 data-screen-label="Overlays" style="font:500 13px 'Roboto Mono';letter-spacing:.16em;text-transform:uppercase;color:var(--muted-foreground);margin:0 0 24px;padding-bottom:14px;border-bottom:1px solid var(--border)">Dialogs, menus &amp; feedback</h2>
+    <section style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-bottom:64px">
+      <button class="md-ripple-host" data-ripple="var(--primary-foreground)" onClick="{{ openDialog }}" style="position:relative;height:40px;padding:0 24px;border:none;border-radius:var(--md-full);background:var(--primary);color:var(--primary-foreground);font:500 14px Roboto;cursor:pointer">Open dialog</button>
+      <div style="position:relative">
+        <button class="md-ripple-host" data-ripple="var(--primary)" onClick="{{ toggleMenu }}" style="position:relative;display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px 0 24px;border:1px solid var(--border);border-radius:var(--md-full);background:transparent;color:var(--foreground);font:500 14px Roboto;cursor:pointer">Menu<span class="msr" style="font-size:18px">arrow_drop_down</span></button>
+        <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;top:48px;left:0;z-index:20;min-width:200px;padding:8px;border-radius:var(--md-xs);background:var(--popover);color:var(--popover-foreground);box-shadow:var(--md-e2);border:1px solid var(--border);animation:md-pop .14s cubic-bezier(0.05,0.7,0.1,1)">
+            <sc-for list="{{ menuItems }}" as="mi" hint-placeholder-count="4">
+              <div class="md-ripple-host" data-ripple="var(--foreground)" onClick="{{ toggleMenu }}" style="position:relative;display:flex;align-items:center;gap:12px;height:40px;padding:0 12px;border-radius:var(--md-xs);font:400 14px Roboto;cursor:pointer" style-hover="background:var(--accent)"><span class="msr" style="font-size:20px;color:var(--muted-foreground)">{{ mi.icon }}</span>{{ mi.label }}</div>
+            </sc-for>
+          </div>
+        </sc-if>
+      </div>
+      <button class="md-ripple-host" data-ripple="var(--primary)" onClick="{{ showSnack }}" style="position:relative;height:40px;padding:0 24px;border:1px solid var(--border);border-radius:var(--md-full);background:transparent;color:var(--foreground);font:500 14px Roboto;cursor:pointer">Show snackbar</button>
+      <div style="position:relative;display:inline-flex" onMouseEnter="{{ showTip }}" onMouseLeave="{{ hideTip }}">
+        <button style="position:relative;display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border:none;border-radius:var(--md-full);background:transparent;color:var(--foreground);cursor:pointer"><span class="msr" style="font-size:20px">help</span></button>
+        <sc-if value="{{ tipOpen }}" hint-placeholder-val="{{ false }}">
+          <span style="position:absolute;bottom:46px;left:50%;transform:translateX(-50%);white-space:nowrap;padding:6px 10px;border-radius:var(--md-xs);background:var(--primary);color:var(--primary-foreground);font:400 12px Roboto;box-shadow:var(--md-e1);animation:md-fade .1s ease">Plain tooltip</span>
+        </sc-if>
+      </div>
+    </section>
+
+    <!-- LISTS + TABLE -->
+    <h2 data-screen-label="Data" style="font:500 13px 'Roboto Mono';letter-spacing:.16em;text-transform:uppercase;color:var(--muted-foreground);margin:0 0 24px;padding-bottom:14px;border-bottom:1px solid var(--border)">Lists, tables &amp; data</h2>
+    <section style="display:grid;grid-template-columns:1fr 1.3fr;gap:28px;margin-bottom:48px" data-resp="stack">
+      <!-- List -->
+      <div style="border:1px solid var(--border);border-radius:var(--md-md);overflow:hidden">
+        <sc-for list="{{ listItems }}" as="li" hint-placeholder-count="4">
+          <div class="md-ripple-host" data-ripple="var(--foreground)" onClick="{{ noop }}" style="position:relative;display:flex;align-items:center;gap:16px;padding:12px 16px;cursor:pointer;border-bottom:1px solid var(--border)" style-hover="background:var(--accent)">
+            <span style="display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:var(--secondary);color:var(--secondary-foreground)"><span class="msr" style="font-size:20px">{{ li.icon }}</span></span>
+            <div style="flex:1;min-width:0"><div style="font:500 15px Roboto">{{ li.title }}</div><div style="font:400 13px Roboto;color:var(--muted-foreground);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ li.sub }}</div></div>
+            <span style="display:inline-flex;align-items:center;height:22px;padding:0 9px;border-radius:var(--md-full);background:var(--primary);color:var(--primary-foreground);font:500 11px 'Roboto Mono'">{{ li.badge }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <!-- Table (grid-based to avoid table-parsing reflow) -->
+      <div style="border:1px solid var(--border);border-radius:var(--md-md);overflow:hidden;font:400 14px Roboto">
+        <div style="display:grid;grid-template-columns:1.4fr 1fr 0.7fr;background:var(--secondary)">
+          <span style="padding:12px 16px;font:500 13px Roboto;color:var(--muted-foreground)">Component</span>
+          <span style="padding:12px 16px;font:500 13px Roboto;color:var(--muted-foreground)">Status</span>
+          <span style="padding:12px 16px;text-align:right;font:500 13px Roboto;color:var(--muted-foreground)">Coverage</span>
+        </div>
+        <sc-for list="{{ tableRows }}" as="row" hint-placeholder-count="4">
+          <div style="display:grid;grid-template-columns:1.4fr 1fr 0.7fr;align-items:center;border-top:1px solid var(--border)">
+            <span style="padding:12px 16px;font-weight:500">{{ row.name }}</span>
+            <span style="padding:12px 16px"><span style="display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:var(--md-full);font:500 12px Roboto;background:{{ row.statusBg }};color:{{ row.statusColor }}">{{ row.status }}</span></span>
+            <span style="padding:12px 16px;text-align:right;font-variant-numeric:tabular-nums;color:var(--muted-foreground)">{{ row.coverage }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <!-- PROGRESS + BADGES -->
+    <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:32px;margin-bottom:64px;align-items:center">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <span style="font:500 13px 'Roboto Mono';color:var(--muted-foreground)">Linear progress</span>
+        <div style="position:relative;height:4px;border-radius:2px;background:var(--secondary);overflow:hidden"><div style="position:absolute;top:0;bottom:0;width:62%;border-radius:2px;background:var(--primary)"></div></div>
+        <div style="position:relative;height:4px;border-radius:2px;background:var(--secondary);overflow:hidden"><div style="position:absolute;top:0;bottom:0;border-radius:2px;background:var(--primary);animation:md-linear 2s cubic-bezier(0.65,0.815,0.735,0.395) infinite"></div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:10px">
+          <span style="font:500 13px 'Roboto Mono';color:var(--muted-foreground)">Circular</span>
+          <svg width="48" height="48" viewBox="0 0 48 48" style="animation:md-spin 1.4s linear infinite"><circle cx="24" cy="24" r="20" fill="none" stroke="var(--primary)" stroke-width="4" stroke-linecap="round" style="animation:md-dash 1.4s ease-in-out infinite"></circle></svg>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <span style="font:500 13px 'Roboto Mono';color:var(--muted-foreground)">Badges</span>
+          <div style="display:flex;gap:18px;align-items:center">
+            <span style="position:relative;display:inline-flex"><span class="msr" style="font-size:26px">mail</span><span style="position:absolute;top:-4px;right:-6px;min-width:16px;height:16px;padding:0 4px;border-radius:var(--md-full);background:var(--destructive);color:var(--destructive-foreground);font:500 11px Roboto;display:flex;align-items:center;justify-content:center">3</span></span>
+            <span style="position:relative;display:inline-flex"><span class="msr" style="font-size:26px">notifications</span><span style="position:absolute;top:-2px;right:-2px;width:8px;height:8px;border-radius:50%;background:var(--destructive)"></span></span>
+            <span style="display:inline-flex;align-items:center;height:22px;padding:0 10px;border-radius:var(--md-full);background:var(--secondary);color:var(--secondary-foreground);font:500 12px Roboto">New</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TABS + NAV BAR -->
+    <h2 data-screen-label="Navigation" style="font:500 13px 'Roboto Mono';letter-spacing:.16em;text-transform:uppercase;color:var(--muted-foreground);margin:0 0 24px;padding-bottom:14px;border-bottom:1px solid var(--border)">Navigation</h2>
+    <section style="margin-bottom:32px">
+      <div style="display:flex;border-bottom:1px solid var(--border)">
+        <sc-for list="{{ tabs }}" as="tb" hint-placeholder-count="3">
+          <button class="md-ripple-host" data-ripple="var(--primary)" onClick="{{ tb.select }}" style="position:relative;flex:1;display:flex;align-items:center;justify-content:center;gap:8px;height:48px;border:none;background:transparent;font:500 14px Roboto;cursor:pointer;color:{{ tb.color }}">
+            <span class="msr" style="font-size:20px">{{ tb.icon }}</span>{{ tb.label }}
+            <sc-if value="{{ tb.active }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:64px;height:3px;border-radius:3px 3px 0 0;background:var(--primary)"></span></sc-if>
+          </button>
+        </sc-for>
+      </div>
+    </section>
+    <section style="display:flex;justify-content:center;margin-bottom:40px">
+      <div style="display:flex;gap:8px;height:80px;padding:0 12px;background:var(--secondary);border-radius:var(--md-lg);align-items:center;width:100%;max-width:460px;justify-content:space-around">
+        <sc-for list="{{ navItems }}" as="nv" hint-placeholder-count="4">
+          <button onClick="{{ nv.select }}" style="display:flex;flex-direction:column;align-items:center;gap:4px;border:none;background:transparent;cursor:pointer;font:500 12px Roboto;color:{{ nv.color }}">
+            <span style="display:inline-flex;align-items:center;justify-content:center;width:64px;height:32px;border-radius:var(--md-full);transition:background .2s;background:{{ nv.pillBg }}"><span class="msr" style="font-size:24px;font-variation-settings:{{ nv.fill }}">{{ nv.icon }}</span></span>
+            {{ nv.label }}
+          </button>
+        </sc-for>
+      </div>
+    </section>
+
+    <!-- MORE COMPONENTS -->
+    <h2 data-screen-label="More" style="font:500 13px 'Roboto Mono';letter-spacing:.16em;text-transform:uppercase;color:var(--muted-foreground);margin:0 0 24px;padding-bottom:14px;border-bottom:1px solid var(--border)">Menus, selects &amp; disclosure</h2>
+    <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:32px;margin-bottom:40px;align-items:start">
+
+      <!-- Select -->
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <span style="font:500 13px 'Roboto Mono';color:var(--muted-foreground)">Select</span>
+        <div style="position:relative">
+          <button class="md-ripple-host" data-ripple="var(--primary)" onClick="{{ toggleSelect }}" style="position:relative;display:flex;align-items:center;justify-content:space-between;width:100%;height:56px;padding:0 16px;border:2px solid {{ selectBorder }};border-radius:var(--md-xs);background:transparent;color:var(--foreground);font:400 16px Roboto;cursor:pointer">
+            {{ selectLabel }}<span class="msr" style="font-size:22px;color:var(--muted-foreground);transition:transform .2s;transform:{{ selectChevron }}">expand_more</span>
+          </button>
+          <sc-if value="{{ selectOpen }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;top:62px;left:0;right:0;z-index:20;padding:8px;border-radius:var(--md-xs);background:var(--popover);color:var(--popover-foreground);box-shadow:var(--md-e2);border:1px solid var(--border);animation:md-pop .14s cubic-bezier(0.05,0.7,0.1,1)">
+              <sc-for list="{{ selectItems }}" as="op" hint-placeholder-count="4">
+                <div class="md-ripple-host" data-ripple="var(--foreground)" onClick="{{ op.choose }}" style="position:relative;display:flex;align-items:center;justify-content:space-between;height:40px;padding:0 12px;border-radius:var(--md-xs);font:400 14px Roboto;cursor:pointer" style-hover="background:var(--accent)">{{ op.label }}<sc-if value="{{ op.selected }}" hint-placeholder-val="{{ false }}"><span class="msr" style="font-size:18px;color:var(--primary)">check</span></sc-if></div>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+
+      <!-- Segmented / toggle -->
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <span style="font:500 13px 'Roboto Mono';color:var(--muted-foreground)">Segmented buttons</span>
+        <div style="display:flex;border:1px solid var(--border);border-radius:var(--md-full);overflow:hidden;height:40px">
+          <sc-for list="{{ segments }}" as="sg" hint-placeholder-count="3">
+            <button class="md-ripple-host" data-ripple="var(--primary)" onClick="{{ sg.select }}" style="position:relative;flex:1;display:flex;align-items:center;justify-content:center;gap:6px;border:none;border-left:{{ sg.divider }};background:{{ sg.bg }};color:{{ sg.color }};font:500 14px Roboto;cursor:pointer">
+              <sc-if value="{{ sg.active }}" hint-placeholder-val="{{ false }}"><span class="msr" style="font-size:18px">check</span></sc-if>{{ sg.label }}
+            </button>
+          </sc-for>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:4px">
+          <sc-for list="{{ iconToggles }}" as="it" hint-placeholder-count="3">
+            <button class="md-ripple-host" data-ripple="var(--primary)" onClick="{{ it.toggle }}" style="position:relative;display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border:1px solid var(--border);border-radius:var(--md-full);background:{{ it.bg }};color:{{ it.color }};cursor:pointer"><span class="msr" style="font-size:20px;font-variation-settings:{{ it.fill }}">{{ it.icon }}</span></button>
+          </sc-for>
+        </div>
+      </div>
+
+      <!-- Avatars + skeleton -->
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <span style="font:500 13px 'Roboto Mono';color:var(--muted-foreground)">Avatars</span>
+        <div style="display:flex;align-items:center;gap:12px">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:var(--primary);color:var(--primary-foreground);font:500 15px Roboto">AK</span>
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:var(--secondary);color:var(--secondary-foreground);font:500 15px Roboto">MJ</span>
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:var(--secondary);color:var(--secondary-foreground)"><span class="msr" style="font-size:22px">person</span></span>
+        </div>
+        <span style="font:500 13px 'Roboto Mono';color:var(--muted-foreground);margin-top:8px">Skeleton</span>
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:40px;height:40px;border-radius:50%;background:var(--secondary);animation:md-fade 1s ease-in-out infinite alternate"></div>
+          <div style="flex:1;display:flex;flex-direction:column;gap:8px">
+            <div style="height:12px;width:70%;border-radius:6px;background:var(--secondary);animation:md-fade 1s ease-in-out infinite alternate"></div>
+            <div style="height:12px;width:45%;border-radius:6px;background:var(--secondary);animation:md-fade 1s ease-in-out infinite alternate"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Accordion + Alerts -->
+    <section style="display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-bottom:40px;align-items:start" data-resp="stack">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <span style="font:500 13px 'Roboto Mono';color:var(--muted-foreground)">Accordion</span>
+        <div style="border:1px solid var(--border);border-radius:var(--md-md);overflow:hidden">
+          <sc-for list="{{ accordion }}" as="ac" hint-placeholder-count="3">
+            <div style="border-bottom:1px solid var(--border)">
+              <button class="md-ripple-host" data-ripple="var(--foreground)" onClick="{{ ac.toggle }}" style="position:relative;display:flex;align-items:center;justify-content:space-between;width:100%;padding:16px;border:none;background:transparent;color:var(--foreground);font:500 15px Roboto;cursor:pointer;text-align:left">{{ ac.q }}<span class="msr" style="font-size:22px;color:var(--muted-foreground);transition:transform .2s;transform:{{ ac.chevron }}">expand_more</span></button>
+              <sc-if value="{{ ac.open }}" hint-placeholder-val="{{ false }}"><div style="padding:0 16px 16px;font:400 14px/20px Roboto;color:var(--muted-foreground)">{{ ac.a }}</div></sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <span style="font:500 13px 'Roboto Mono';color:var(--muted-foreground)">Banners &amp; overlays</span>
+        <div style="display:flex;gap:12px;padding:16px;border:1px solid var(--border);border-radius:var(--md-md);background:var(--card)">
+          <span class="msr" style="font-size:20px;color:var(--muted-foreground)">info</span>
+          <div><div style="font:500 14px Roboto;margin-bottom:2px">Neutral banner</div><div style="font:400 13px/18px Roboto;color:var(--muted-foreground)">A tonal surface for non-blocking messages.</div></div>
+        </div>
+        <div style="display:flex;gap:12px;padding:16px;border-radius:var(--md-md);background:color-mix(in srgb,var(--destructive) 10%,transparent)">
+          <span class="msr" style="font-size:20px;color:var(--destructive)">error</span>
+          <div><div style="font:500 14px Roboto;color:var(--destructive);margin-bottom:2px">Error banner</div><div style="font:400 13px/18px Roboto;color:var(--destructive)">Something needs your attention.</div></div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:2px">
+          <button class="md-ripple-host" data-ripple="var(--primary)" onClick="{{ openPopover }}" style="position:relative;height:40px;padding:0 20px;border:1px solid var(--border);border-radius:var(--md-full);background:transparent;color:var(--foreground);font:500 14px Roboto;cursor:pointer">Popover</button>
+          <button class="md-ripple-host" data-ripple="var(--primary-foreground)" onClick="{{ openSheet }}" style="position:relative;height:40px;padding:0 24px;border:none;border-radius:var(--md-full);background:var(--primary);color:var(--primary-foreground);font:500 14px Roboto;cursor:pointer">Open sheet</button>
+        </div>
+        <sc-if value="{{ popoverOpen }}" hint-placeholder-val="{{ false }}">
+          <div style="align-self:flex-start;width:240px;padding:16px;border:1px solid var(--border);border-radius:var(--md-md);background:var(--popover);color:var(--popover-foreground);box-shadow:var(--md-e2);animation:md-pop .14s cubic-bezier(0.05,0.7,0.1,1)">
+            <div style="font:500 14px Roboto;margin-bottom:6px">Popover surface</div>
+            <div style="font:400 13px/18px Roboto;color:var(--muted-foreground);margin-bottom:12px">Anchored, dismissible content at elevation level 2.</div>
+            <button onClick="{{ closePopover }}" style="border:none;background:transparent;color:var(--primary);font:500 13px Roboto;cursor:pointer;padding:0">Got it</button>
+          </div>
+        </sc-if>
+      </div>
+    </section>
+
+  </main>
+
+  <footer style="border-top:1px solid var(--border);padding:28px 24px;text-align:center;font:400 13px 'Roboto Mono';color:var(--muted-foreground)">md3-registry · Material Design 3 spec on shadcn neutral tokens · install with <span style="color:var(--foreground)">npx shadcn add md3</span></footer>
+
+  <!-- DIALOG -->
+  <sc-if value="{{ dialogOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeDialog }}" style="position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.32);display:flex;align-items:center;justify-content:center;padding:24px;animation:md-fade .15s ease">
+      <div onClick="{{ stop }}" style="width:min(420px,100%);padding:24px;border-radius:var(--md-xl);background:var(--popover);color:var(--popover-foreground);box-shadow:var(--md-e4);animation:md-pop .2s cubic-bezier(0.05,0.7,0.1,1)">
+        <span class="msr" style="font-size:24px;color:var(--primary);margin-bottom:16px">delete</span>
+        <h3 style="margin:0 0 12px;font:400 24px Roboto">Reset settings?</h3>
+        <p style="margin:0 0 24px;font:400 14px/20px Roboto;color:var(--muted-foreground)">This will restore all components to their default token values. This action can't be undone.</p>
+        <div style="display:flex;justify-content:flex-end;gap:8px">
+          <button class="md-ripple-host" data-ripple="var(--primary)" onClick="{{ closeDialog }}" style="position:relative;height:40px;padding:0 16px;border:none;border-radius:var(--md-full);background:transparent;color:var(--foreground);font:500 14px Roboto;cursor:pointer">Cancel</button>
+          <button class="md-ripple-host" data-ripple="var(--primary-foreground)" onClick="{{ closeDialog }}" style="position:relative;height:40px;padding:0 24px;border:none;border-radius:var(--md-full);background:var(--primary);color:var(--primary-foreground);font:500 14px Roboto;cursor:pointer">Reset</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- SNACKBAR -->
+  <sc-if value="{{ snackOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:60;display:flex;align-items:center;gap:24px;min-width:300px;max-width:90vw;padding:14px 16px;border-radius:var(--md-xs);background:var(--foreground);color:var(--background);box-shadow:var(--md-e3);animation:md-snack .2s cubic-bezier(0.05,0.7,0.1,1)">
+      <span style="flex:1;font:400 14px Roboto">Changes saved to registry.json</span>
+      <button onClick="{{ hideSnack }}" style="border:none;background:transparent;color:var(--primary);font:500 14px Roboto;cursor:pointer">Undo</button>
+    </div>
+  </sc-if>
+
+  <!-- SIDE SHEET -->
+  <sc-if value="{{ sheetOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeSheet }}" style="position:fixed;inset:0;z-index:55;background:rgba(0,0,0,.32);animation:md-fade .15s ease">
+      <div onClick="{{ stop }}" style="position:absolute;top:0;right:0;bottom:0;width:min(360px,90vw);padding:24px;background:var(--card);color:var(--card-foreground);box-shadow:var(--md-e4);border-radius:28px 0 0 28px;display:flex;flex-direction:column;gap:8px;animation:md-sheet .28s cubic-bezier(0.05,0.7,0.1,1)">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <h3 style="margin:0;font:400 22px Roboto">Side sheet</h3>
+          <button class="md-ripple-host" data-ripple="var(--foreground)" onClick="{{ closeSheet }}" style="position:relative;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border:none;border-radius:var(--md-full);background:transparent;color:var(--muted-foreground);cursor:pointer"><span class="msr" style="font-size:20px">close</span></button>
+        </div>
+        <sc-for list="{{ sheetItems }}" as="si" hint-placeholder-count="4">
+          <div class="md-ripple-host" data-ripple="var(--foreground)" onClick="{{ noop }}" style="position:relative;display:flex;align-items:center;gap:16px;height:48px;padding:0 12px;border-radius:var(--md-full);cursor:pointer;font:500 14px Roboto" style-hover="background:var(--accent)"><span class="msr" style="font-size:22px;color:var(--muted-foreground)">{{ si.icon }}</span>{{ si.label }}</div>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1180,&quot;height&quot;:900}}">
+class Component extends DCLogic {
+  state = {
+    dark: false,
+    switchOn: true,
+    sliderVal: 60,
+    dragging: false,
+    checks: [true, false, true],
+    radio: 0,
+    chips: [true, false, false, true, false],
+    dialogOpen: false,
+    menuOpen: false,
+    snackOpen: false,
+    tipOpen: false,
+    tab: 0,
+    nav: 0,
+    selectOpen: false,
+    selectVal: 1,
+    segment: 1,
+    iconToggles: [true, false, false],
+    accordionOpen: 0,
+    popoverOpen: false,
+    sheetOpen: false,
+  };
+
+  componentDidMount() {
+    // Delegated ripple
+    this._onDown = (e) => {
+      const host = e.target.closest('.md-ripple-host');
+      if (!host || !this._root || !this._root.contains(host)) return;
+      const rect = host.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      const span = document.createElement('span');
+      span.className = 'md-ripple';
+      span.style.width = span.style.height = size + 'px';
+      span.style.left = (e.clientX - rect.left - size / 2) + 'px';
+      span.style.top = (e.clientY - rect.top - size / 2) + 'px';
+      const col = host.getAttribute('data-ripple');
+      if (col) span.style.color = col;
+      host.appendChild(span);
+      span.addEventListener('animationend', () => span.remove());
+    };
+    document.addEventListener('pointerdown', this._onDown, true);
+    this._onMove = (e) => { if (this.state.dragging) this._setSlider(e.clientX); };
+    this._onUp = () => { if (this.state.dragging) this.setState({ dragging: false }); };
+    window.addEventListener('pointermove', this._onMove);
+    window.addEventListener('pointerup', this._onUp);
+  }
+  componentWillUnmount() {
+    document.removeEventListener('pointerdown', this._onDown, true);
+    window.removeEventListener('pointermove', this._onMove);
+    window.removeEventListener('pointerup', this._onUp);
+  }
+
+  _setSlider(clientX) {
+    const track = this._sliderTrack;
+    if (!track) return;
+    const r = track.getBoundingClientRect();
+    let pct = Math.round(((clientX - r.left) / r.width) * 100);
+    pct = Math.max(0, Math.min(100, pct));
+    this.setState({ sliderVal: pct });
+  }
+
+  renderVals() {
+    const dark = this.state.dark;
+    const typeScale = [
+      { token: 'display-large', sample: 'Material You', size: '57 / 64', css: '400 36px/40px Roboto', },
+      { token: 'headline-medium', sample: 'Dynamic color', size: '28 / 36', css: '400 28px/36px Roboto' },
+      { token: 'title-large', sample: 'Tonal elevation', size: '22 / 28', css: '400 22px/28px Roboto' },
+      { token: 'body-large', sample: 'State layers respond to hover, focus, and press.', size: '16 / 24', css: '400 16px/24px Roboto' },
+      { token: 'label-large', sample: 'BUTTON LABEL', size: '14 / 20', css: '500 14px/20px Roboto' },
+    ];
+    const colorRoles = [
+      { name: 'Primary', var: '--primary', bg: 'var(--primary)' },
+      { name: 'On Primary', var: '--primary-foreground', bg: 'var(--primary-foreground)' },
+      { name: 'Secondary', var: '--secondary', bg: 'var(--secondary)' },
+      { name: 'Muted', var: '--muted', bg: 'var(--muted)' },
+      { name: 'Accent', var: '--accent', bg: 'var(--accent)' },
+      { name: 'Destructive', var: '--destructive', bg: 'var(--destructive)' },
+      { name: 'Border', var: '--border', bg: 'var(--border)' },
+      { name: 'Card', var: '--card', bg: 'var(--card)' },
+    ];
+    const chipLabels = ['Enabled', 'Filters', 'Elevated', 'Selected', 'Disabled'];
+    const chips = chipLabels.map((label, i) => {
+      const selected = this.state.chips[i];
+      return {
+        label, selected,
+        bg: selected ? 'var(--secondary)' : 'transparent',
+        color: 'var(--foreground)',
+        borderColor: selected ? 'transparent' : 'var(--border)',
+        toggle: () => this.setState(s => { const c = [...s.chips]; c[i] = !c[i]; return { chips: c }; }),
+      };
+    });
+    const checkLabels = ['Ripple on press', 'Reduce motion', 'Tonal surfaces'];
+    const checkboxes = checkLabels.map((label, i) => {
+      const checked = this.state.checks[i];
+      return {
+        label, checked,
+        bg: checked ? 'var(--primary)' : 'transparent',
+        borderColor: checked ? 'var(--primary)' : 'var(--muted-foreground)',
+        toggle: () => this.setState(s => { const c = [...s.checks]; c[i] = !c[i]; return { checks: c }; }),
+      };
+    });
+    const radioLabels = ['Comfortable', 'Compact', 'Spacious'];
+    const radios = radioLabels.map((label, i) => ({
+      label, selected: this.state.radio === i,
+      borderColor: this.state.radio === i ? 'var(--primary)' : 'var(--muted-foreground)',
+      select: () => this.setState({ radio: i }),
+    }));
+    const elevations = [
+      { label: 'level 0', shadow: 'none' },
+      { label: 'level 1', shadow: 'var(--md-e1)' },
+      { label: 'level 2', shadow: 'var(--md-e2)' },
+      { label: 'level 3', shadow: 'var(--md-e3)' },
+      { label: 'level 4', shadow: 'var(--md-e4)' },
+    ];
+    const menuItems = [
+      { icon: 'content_copy', label: 'Duplicate' },
+      { icon: 'edit', label: 'Rename' },
+      { icon: 'archive', label: 'Archive' },
+      { icon: 'delete', label: 'Delete' },
+    ];
+    const listItems = [
+      { icon: 'palette', title: 'Color tokens', sub: 'Tonal palettes + semantic roles', badge: 'OK' },
+      { icon: 'text_fields', title: 'Typography', sub: 'Display → label, 5 grades', badge: 'OK' },
+      { icon: 'layers', title: 'Elevation', sub: 'Tonal + shadow, 5 levels', badge: 'OK' },
+      { icon: 'animation', title: 'Motion', sub: 'Emphasized easing + duration', badge: 'WIP' },
+    ];
+    const okBg = 'color-mix(in srgb,#16a34a 18%,transparent)';
+    const tableRows = [
+      { name: 'Button', status: 'stable', coverage: '100%', statusBg: okBg, statusColor: '#16a34a' },
+      { name: 'Text field', status: 'stable', coverage: '100%', statusBg: okBg, statusColor: '#16a34a' },
+      { name: 'Navigation', status: 'beta', coverage: '80%', statusBg: 'var(--secondary)', statusColor: 'var(--secondary-foreground)' },
+      { name: 'Date picker', status: 'planned', coverage: '0%', statusBg: 'var(--secondary)', statusColor: 'var(--muted-foreground)' },
+    ];
+    const tabLabels = [['Components', 'widgets'], ['Tokens', 'tune'], ['Install', 'download']];
+    const tabs = tabLabels.map(([label, icon], i) => ({
+      label, icon, active: this.state.tab === i,
+      color: this.state.tab === i ? 'var(--primary)' : 'var(--muted-foreground)',
+      select: () => this.setState({ tab: i }),
+    }));
+    const navLabels = [['Home', 'home'], ['Browse', 'grid_view'], ['Saved', 'bookmark'], ['Profile', 'person']];
+    const navItems = navLabels.map(([label, icon], i) => {
+      const active = this.state.nav === i;
+      return {
+        label, icon, active,
+        color: active ? 'var(--foreground)' : 'var(--muted-foreground)',
+        pillBg: active ? 'color-mix(in srgb,var(--primary) 22%,transparent)' : 'transparent',
+        fill: active ? "'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24" : "'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24",
+        select: () => this.setState({ nav: i }),
+      };
+    });
+
+    const on = this.state.switchOn;
+
+    // Select
+    const selectOptions = ['Comfortable', 'Cozy', 'Compact', 'Spacious'];
+    const selectItems = selectOptions.map((label, i) => ({
+      label, selected: this.state.selectVal === i,
+      choose: () => this.setState({ selectVal: i, selectOpen: false }),
+    }));
+    // Segmented buttons
+    const segLabels = [['Day', 0], ['Week', 1], ['Month', 2]];
+    const segments = segLabels.map(([label], i) => {
+      const active = this.state.segment === i;
+      return {
+        label, active,
+        bg: active ? 'var(--secondary)' : 'transparent',
+        color: active ? 'var(--secondary-foreground)' : 'var(--foreground)',
+        divider: i === 0 ? 'none' : '1px solid var(--border)',
+        select: () => this.setState({ segment: i }),
+      };
+    });
+    // Icon toggles
+    const iconDefs = [['format_bold', 0], ['format_italic', 1], ['format_underlined', 2]];
+    const iconToggles = iconDefs.map(([icon], i) => {
+      const active = this.state.iconToggles[i];
+      return {
+        icon, active,
+        bg: active ? 'var(--secondary)' : 'transparent',
+        color: 'var(--foreground)',
+        fill: active ? "'FILL' 1,'wght' 500,'GRAD' 0,'opsz' 24" : "'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24",
+        toggle: () => this.setState(s => { const c = [...s.iconToggles]; c[i] = !c[i]; return { iconToggles: c }; }),
+      };
+    });
+    // Accordion
+    const accDefs = [
+      ['How are tokens applied?', 'The md3-theme style item writes the shadcn neutral roles plus MD3 shape, elevation, and motion tokens into your globals.css.'],
+      ['Is it CLI-installable?', 'Yes — every item validates against the shadcn registry schema, so npx shadcn add resolves dependencies automatically.'],
+      ['Light and dark?', 'Both ship as cssVars; toggling the .dark class swaps the entire palette.'],
+    ];
+    const accordion = accDefs.map(([q, a], i) => {
+      const open = this.state.accordionOpen === i;
+      return {
+        q, a, open,
+        chevron: open ? 'rotate(180deg)' : 'rotate(0deg)',
+        toggle: () => this.setState(s => ({ accordionOpen: s.accordionOpen === i ? -1 : i })),
+      };
+    });
+    const sheetItems = [
+      { icon: 'palette', label: 'Theme tokens' },
+      { icon: 'widgets', label: 'Components' },
+      { icon: 'download', label: 'Install guide' },
+      { icon: 'description', label: 'Documentation' },
+    ];
+
+    return {
+      themeClass: dark ? 'dark' : '',
+      themeIcon: dark ? 'light_mode' : 'dark_mode',
+      toggleTheme: () => this.setState(s => ({ dark: !s.dark })),
+      noop: (e) => { e && e.preventDefault && e.preventDefault(); },
+      stop: (e) => e.stopPropagation(),
+
+      typeScale, colorRoles, chips, checkboxes, radios, elevations,
+      menuItems, listItems, tableRows, tabs, navItems,
+
+      switchOn: on,
+      toggleSwitch: () => this.setState(s => ({ switchOn: !s.switchOn })),
+      switchTrackBg: on ? 'var(--primary)' : 'var(--secondary)',
+      switchTrackBorder: on ? 'var(--primary)' : 'var(--muted-foreground)',
+      switchThumbBg: on ? 'var(--primary-foreground)' : 'var(--muted-foreground)',
+      switchThumbSize: on ? '24px' : '16px',
+      switchThumbLeft: on ? '24px' : '4px',
+      switchThumbTransform: 'translateY(-50%)',
+
+      sliderVal: this.state.sliderVal,
+      sliderPct: this.state.sliderVal + '%',
+      sliderDown: (e) => {
+        const wrap = e.currentTarget;
+        this._sliderTrack = wrap;
+        this.setState({ dragging: true });
+        this._setSlider(e.clientX);
+      },
+
+      dialogOpen: this.state.dialogOpen,
+      openDialog: () => this.setState({ dialogOpen: true }),
+      closeDialog: () => this.setState({ dialogOpen: false }),
+
+      menuOpen: this.state.menuOpen,
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+
+      snackOpen: this.state.snackOpen,
+      showSnack: () => { this.setState({ snackOpen: true }); clearTimeout(this._snackT); this._snackT = setTimeout(() => this.setState({ snackOpen: false }), 3200); },
+      hideSnack: () => this.setState({ snackOpen: false }),
+
+      tipOpen: this.state.tipOpen,
+      showTip: () => this.setState({ tipOpen: true }),
+      hideTip: () => this.setState({ tipOpen: false }),
+
+      selectItems,
+      selectOpen: this.state.selectOpen,
+      selectLabel: selectOptions[this.state.selectVal],
+      selectBorder: this.state.selectOpen ? 'var(--primary)' : 'var(--border)',
+      selectChevron: this.state.selectOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+      toggleSelect: () => this.setState(s => ({ selectOpen: !s.selectOpen })),
+
+      segments, iconToggles, accordion, sheetItems,
+
+      popoverOpen: this.state.popoverOpen,
+      openPopover: () => this.setState(s => ({ popoverOpen: !s.popoverOpen })),
+      closePopover: () => this.setState({ popoverOpen: false }),
+
+      sheetOpen: this.state.sheetOpen,
+      openSheet: () => this.setState({ sheetOpen: true }),
+      closeSheet: () => this.setState({ sheetOpen: false }),
+
+      _setRoot: (el) => { this._root = el; },
+    };
+  }
+}
+</script>
+</body>
+</html>
