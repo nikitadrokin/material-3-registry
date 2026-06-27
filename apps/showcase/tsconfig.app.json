@@ -24,10 +24,10 @@
     "noFallthroughCasesInSwitch": true,
 
     "paths": {
-      "@/registry/md3/*": ["../../md3-registry/registry/md3/*"],
-      "@/lib/*": ["../../md3-registry/registry/md3/lib/*"],
-      "@/hooks/*": ["../../md3-registry/registry/md3/hooks/*"]
+      "@/registry/md3/*": ["./registry/md3/*"],
+      "@/lib/*": ["./registry/md3/lib/*"],
+      "@/hooks/*": ["./registry/md3/hooks/*"]
     }
   },
-  "include": ["src", "../../md3-registry/registry/md3"]
+  "include": ["src", "registry"]
 }
