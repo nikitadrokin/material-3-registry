@@ -1,0 +1,998 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "md3",
+  "homepage": "https://example.com/md3-registry",
+  "items": [
+    {
+      "name": "md3-theme",
+      "type": "registry:style",
+      "title": "Material 3 Theme",
+      "description": "Material Design 3 token layer mapped onto shadcn's neutral CSS variables: color roles, the MD3 shape scale, tonal/shadow elevation, motion easings, the .md-state-layer utility, and the ripple / progress / accordion keyframes.",
+      "dependencies": [
+        "class-variance-authority",
+        "clsx",
+        "tailwind-merge",
+        "tw-animate-css"
+      ],
+      "cssVars": {
+        "theme": {
+          "radius-xs": "4px",
+          "radius-sm": "8px",
+          "radius-md": "12px",
+          "radius-lg": "16px",
+          "radius-xl": "28px",
+          "radius-full": "9999px",
+          "ease-standard": "cubic-bezier(0.2,0,0,1)",
+          "ease-emphasized-decel": "cubic-bezier(0.05,0.7,0.1,1)",
+          "ease-emphasized-accel": "cubic-bezier(0.3,0,0.8,0.15)",
+          "animate-accordion-down": "accordion-down 0.2s cubic-bezier(0.2,0,0,1)",
+          "animate-accordion-up": "accordion-up 0.2s cubic-bezier(0.2,0,0,1)"
+        },
+        "light": {
+          "background": "oklch(1 0 0)",
+          "foreground": "oklch(0.145 0 0)",
+          "card": "oklch(1 0 0)",
+          "card-foreground": "oklch(0.145 0 0)",
+          "popover": "oklch(1 0 0)",
+          "popover-foreground": "oklch(0.145 0 0)",
+          "primary": "oklch(0.205 0 0)",
+          "primary-foreground": "oklch(0.985 0 0)",
+          "secondary": "oklch(0.97 0 0)",
+          "secondary-foreground": "oklch(0.205 0 0)",
+          "muted": "oklch(0.97 0 0)",
+          "muted-foreground": "oklch(0.556 0 0)",
+          "accent": "oklch(0.97 0 0)",
+          "accent-foreground": "oklch(0.205 0 0)",
+          "destructive": "oklch(0.577 0.245 27.325)",
+          "destructive-foreground": "oklch(0.985 0 0)",
+          "border": "oklch(0.922 0 0)",
+          "input": "oklch(0.922 0 0)",
+          "ring": "oklch(0.708 0 0)",
+          "elevation-1": "0 1px 2px 0 rgb(0 0 0 / 0.30), 0 1px 3px 1px rgb(0 0 0 / 0.15)",
+          "elevation-2": "0 1px 2px 0 rgb(0 0 0 / 0.30), 0 2px 6px 2px rgb(0 0 0 / 0.15)",
+          "elevation-3": "0 1px 3px 0 rgb(0 0 0 / 0.30), 0 4px 8px 3px rgb(0 0 0 / 0.15)",
+          "elevation-4": "0 2px 3px 0 rgb(0 0 0 / 0.30), 0 6px 10px 4px rgb(0 0 0 / 0.15)"
+        },
+        "dark": {
+          "background": "oklch(0.145 0 0)",
+          "foreground": "oklch(0.985 0 0)",
+          "card": "oklch(0.205 0 0)",
+          "card-foreground": "oklch(0.985 0 0)",
+          "popover": "oklch(0.205 0 0)",
+          "popover-foreground": "oklch(0.985 0 0)",
+          "primary": "oklch(0.922 0 0)",
+          "primary-foreground": "oklch(0.205 0 0)",
+          "secondary": "oklch(0.269 0 0)",
+          "secondary-foreground": "oklch(0.985 0 0)",
+          "muted": "oklch(0.269 0 0)",
+          "muted-foreground": "oklch(0.708 0 0)",
+          "accent": "oklch(0.269 0 0)",
+          "accent-foreground": "oklch(0.985 0 0)",
+          "destructive": "oklch(0.704 0.191 22.216)",
+          "destructive-foreground": "oklch(0.985 0 0)",
+          "border": "oklch(1 0 0 / 12%)",
+          "input": "oklch(1 0 0 / 15%)",
+          "ring": "oklch(0.556 0 0)"
+        }
+      },
+      "css": {
+        "@keyframes md-ripple": {
+          "to": {
+            "transform": "scale(2.4)",
+            "opacity": "0"
+          }
+        },
+        "@keyframes md-spin": {
+          "to": {
+            "transform": "rotate(360deg)"
+          }
+        },
+        "@keyframes md-dash": {
+          "0%": {
+            "stroke-dasharray": "1,150",
+            "stroke-dashoffset": "0"
+          },
+          "50%": {
+            "stroke-dasharray": "90,150",
+            "stroke-dashoffset": "-35"
+          },
+          "100%": {
+            "stroke-dasharray": "90,150",
+            "stroke-dashoffset": "-124"
+          }
+        },
+        "@keyframes md-linear-indeterminate": {
+          "0%": {
+            "left": "-35%",
+            "right": "100%"
+          },
+          "60%": {
+            "left": "100%",
+            "right": "-90%"
+          },
+          "100%": {
+            "left": "100%",
+            "right": "-90%"
+          }
+        },
+        "@keyframes accordion-down": {
+          "from": {
+            "height": "0"
+          },
+          "to": {
+            "height": "var(--radix-accordion-content-height)"
+          }
+        },
+        "@keyframes accordion-up": {
+          "from": {
+            "height": "var(--radix-accordion-content-height)"
+          },
+          "to": {
+            "height": "0"
+          }
+        },
+        "@layer components": {
+          ".md-state-layer": {
+            "position": "relative",
+            "isolation": "isolate"
+          },
+          ".md-state-layer::before": {
+            "content": "''",
+            "position": "absolute",
+            "inset": "0",
+            "border-radius": "inherit",
+            "background": "currentColor",
+            "opacity": "0",
+            "transition": "opacity 150ms var(--ease-standard)",
+            "pointer-events": "none",
+            "z-index": "-1"
+          },
+          ".md-state-layer:hover::before": {
+            "opacity": "0.08"
+          },
+          ".md-state-layer:focus-visible::before": {
+            "opacity": "0.10"
+          },
+          ".md-state-layer:active::before": {
+            "opacity": "0.10"
+          }
+        }
+      },
+      "files": [
+        {
+          "path": "registry/md3/lib/elevation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "utils",
+      "type": "registry:lib",
+      "title": "cn() utility",
+      "dependencies": [
+        "clsx",
+        "tailwind-merge"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/lib/utils.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "use-ripple",
+      "type": "registry:hook",
+      "title": "useRipple",
+      "description": "Material 3 touch-ripple hook.",
+      "files": [
+        {
+          "path": "registry/md3/hooks/use-ripple.ts",
+          "type": "registry:hook"
+        }
+      ]
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "Elevated, filled, tonal, outlined, and text variants with state layers and ripple.",
+      "registryDependencies": [
+        "md3-theme",
+        "utils",
+        "use-ripple"
+      ],
+      "dependencies": [
+        "class-variance-authority",
+        "@radix-ui/react-slot"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/ui/button.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "icon-button",
+      "type": "registry:ui",
+      "title": "Icon Button",
+      "registryDependencies": [
+        "md3-theme",
+        "utils",
+        "use-ripple"
+      ],
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/ui/icon-button.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "fab",
+      "type": "registry:ui",
+      "title": "Floating Action Button",
+      "registryDependencies": [
+        "md3-theme",
+        "utils",
+        "use-ripple"
+      ],
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/ui/fab.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "chip",
+      "type": "registry:ui",
+      "title": "Chip",
+      "description": "Assist, filter, input, and suggestion chips with selected state.",
+      "registryDependencies": [
+        "md3-theme",
+        "utils",
+        "use-ripple"
+      ],
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/ui/chip.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "Elevated, filled, and outlined surfaces.",
+      "registryDependencies": [
+        "md3-theme",
+        "utils"
+      ],
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/ui/card.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "registryDependencies": [
+        "md3-theme",
+        "utils"
+      ],
+      "dependencies": [
+        "@radix-ui/react-switch"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/ui/switch.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "registryDependencies": [
+        "md3-theme",
+        "utils"
+      ],
+      "dependencies": [
+        "@radix-ui/react-checkbox",
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/ui/checkbox.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "radio-group",
+      "type": "registry:ui",
+      "title": "Radio Group",
+      "registryDependencies": [
+        "md3-theme",
+        "utils"
+      ],
+      "dependencies": [
+        "@radix-ui/react-radio-group"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/ui/radio-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "registryDependencies": [
+        "md3-theme",
+        "utils"
+      ],
+      "dependencies": [
+        "@radix-ui/react-slider"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/ui/slider.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Text Field",
+      "description": "MD3 text field with floating label, supporting text, and filled / outlined variants.",
+      "registryDependencies": [
+        "md3-theme",
+        "utils"
+      ],
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/ui/input.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "textarea",
+      "type": "registry:ui",
+      "title": "Textarea",
+      "registryDependencies": [
+        "md3-theme",
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/ui/textarea.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "label",
+      "type": "registry:ui",
+      "title": "Label",
+      "registryDependencies": [
+        "utils"
+      ],
+      "dependencies": [
+        "@radix-ui/react-label"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/ui/label.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "Dot, number, and pill badges in error / primary / neutral tones.",
+      "registryDependencies": [
+        "md3-theme",
+        "utils"
+      ],
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/ui/badge.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "separator",
+      "type": "registry:ui",
+      "title": "Separator",
+      "registryDependencies": [
+        "utils"
+      ],
+      "dependencies": [
+        "@radix-ui/react-separator"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/ui/separator.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "avatar",
+      "type": "registry:ui",
+      "title": "Avatar",
+      "registryDependencies": [
+        "utils"
+      ],
+      "dependencies": [
+        "@radix-ui/react-avatar"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/ui/avatar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "registryDependencies": [
+        "md3-theme",
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/ui/skeleton.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "alert",
+      "type": "registry:ui",
+      "title": "Alert",
+      "description": "MD3 banner with neutral and error tones.",
+      "registryDependencies": [
+        "md3-theme",
+        "utils"
+      ],
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/ui/alert.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "linear-progress",
+      "type": "registry:ui",
+      "title": "Linear Progress",
+      "registryDependencies": [
+        "md3-theme",
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/ui/linear-progress.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "circular-progress",
+      "type": "registry:ui",
+      "title": "Circular Progress",
+      "registryDependencies": [
+        "md3-theme",
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/ui/circular-progress.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "registryDependencies": [
+        "md3-theme",
+        "utils"
+      ],
+      "dependencies": [
+        "@radix-ui/react-dialog",
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/ui/dialog.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "alert-dialog",
+      "type": "registry:ui",
+      "title": "Alert Dialog",
+      "registryDependencies": [
+        "md3-theme",
+        "utils"
+      ],
+      "dependencies": [
+        "@radix-ui/react-alert-dialog"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/ui/alert-dialog.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "Side and bottom sheets built on Radix Dialog.",
+      "registryDependencies": [
+        "md3-theme",
+        "utils"
+      ],
+      "dependencies": [
+        "@radix-ui/react-dialog",
+        "class-variance-authority",
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/ui/sheet.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "registryDependencies": [
+        "md3-theme",
+        "utils"
+      ],
+      "dependencies": [
+        "@radix-ui/react-popover"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/ui/popover.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "registryDependencies": [
+        "md3-theme",
+        "utils"
+      ],
+      "dependencies": [
+        "@radix-ui/react-tooltip"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/ui/tooltip.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown Menu",
+      "registryDependencies": [
+        "md3-theme",
+        "utils"
+      ],
+      "dependencies": [
+        "@radix-ui/react-dropdown-menu",
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/ui/dropdown-menu.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "registryDependencies": [
+        "md3-theme",
+        "utils"
+      ],
+      "dependencies": [
+        "@radix-ui/react-select",
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/ui/select.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "registryDependencies": [
+        "md3-theme",
+        "utils"
+      ],
+      "dependencies": [
+        "@radix-ui/react-tabs"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/ui/tabs.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "navigation-bar",
+      "type": "registry:ui",
+      "title": "Navigation Bar",
+      "description": "MD3 bottom navigation bar with tonal active indicators.",
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/ui/navigation-bar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "registryDependencies": [
+        "md3-theme",
+        "utils"
+      ],
+      "dependencies": [
+        "@radix-ui/react-accordion",
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/ui/accordion.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "toggle",
+      "type": "registry:ui",
+      "title": "Toggle",
+      "registryDependencies": [
+        "md3-theme",
+        "utils"
+      ],
+      "dependencies": [
+        "@radix-ui/react-toggle",
+        "class-variance-authority"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/ui/toggle.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "table",
+      "type": "registry:ui",
+      "title": "Table",
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/ui/table.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "snackbar",
+      "type": "registry:ui",
+      "title": "Snackbar",
+      "description": "MD3 snackbar built on Sonner. Render <Toaster /> once, then call toast().",
+      "registryDependencies": [
+        "md3-theme",
+        "utils"
+      ],
+      "dependencies": [
+        "sonner"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/ui/snackbar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "type-scale-demo",
+      "type": "registry:example",
+      "title": "Type Scale",
+      "registryDependencies": [
+        "md3-theme"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/examples/type-scale-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "color-roles-demo",
+      "type": "registry:example",
+      "title": "Color Roles",
+      "registryDependencies": [
+        "md3-theme"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/examples/color-roles-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "buttons-demo",
+      "type": "registry:example",
+      "title": "Buttons",
+      "registryDependencies": [
+        "button",
+        "icon-button",
+        "fab",
+        "separator"
+      ],
+      "dependencies": [
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/examples/buttons-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "chips-demo",
+      "type": "registry:example",
+      "title": "Chips",
+      "registryDependencies": [
+        "chip"
+      ],
+      "dependencies": [
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/examples/chips-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "selection-controls-demo",
+      "type": "registry:example",
+      "title": "Selection Controls",
+      "registryDependencies": [
+        "switch",
+        "checkbox",
+        "radio-group",
+        "slider",
+        "label"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/examples/selection-controls-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "text-fields-demo",
+      "type": "registry:example",
+      "title": "Text Fields",
+      "registryDependencies": [
+        "input"
+      ],
+      "dependencies": [
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/examples/text-fields-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "cards-demo",
+      "type": "registry:example",
+      "title": "Cards & Elevation",
+      "registryDependencies": [
+        "card"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/examples/cards-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "overlays-demo",
+      "type": "registry:example",
+      "title": "Dialogs, Menus & Feedback",
+      "registryDependencies": [
+        "button",
+        "icon-button",
+        "dialog",
+        "dropdown-menu",
+        "popover",
+        "sheet",
+        "tooltip",
+        "snackbar"
+      ],
+      "dependencies": [
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/examples/overlays-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "data-display-demo",
+      "type": "registry:example",
+      "title": "Lists, Tables & Data",
+      "registryDependencies": [
+        "avatar",
+        "badge",
+        "table",
+        "linear-progress",
+        "circular-progress"
+      ],
+      "dependencies": [
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/examples/data-display-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "navigation-demo",
+      "type": "registry:example",
+      "title": "Navigation",
+      "registryDependencies": [
+        "tabs",
+        "navigation-bar",
+        "select",
+        "toggle"
+      ],
+      "dependencies": [
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/examples/navigation-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "disclosure-demo",
+      "type": "registry:example",
+      "title": "Disclosure & Banners",
+      "registryDependencies": [
+        "accordion",
+        "alert",
+        "skeleton"
+      ],
+      "dependencies": [
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/examples/disclosure-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "kitchen-sink",
+      "type": "registry:example",
+      "title": "Kitchen Sink",
+      "description": "The full Material 3 x shadcn kitchen sink as a React page composing every example, with a light/dark toggle. Replaces the static .dc.html prototype.",
+      "registryDependencies": [
+        "icon-button",
+        "type-scale-demo",
+        "color-roles-demo",
+        "buttons-demo",
+        "chips-demo",
+        "selection-controls-demo",
+        "text-fields-demo",
+        "cards-demo",
+        "overlays-demo",
+        "data-display-demo",
+        "navigation-demo",
+        "disclosure-demo"
+      ],
+      "dependencies": [
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/md3/examples/kitchen-sink.tsx",
+          "type": "registry:example"
+        }
+      ]
+    }
+  ]
+}
