@@ -1,0 +1,9 @@
+{
+  "name": "@material-3/registry",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Material Design 3 component registry for shadcn/ui",
+  "exports": {
+    "./registry.json": "./registry.json"
+  }
+}
