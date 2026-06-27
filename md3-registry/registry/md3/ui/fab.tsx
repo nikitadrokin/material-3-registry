@@ -30,7 +30,7 @@ const fabVariants = cva(
 )
 
 export interface FabProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "color">,
     VariantProps<typeof fabVariants> {}
 
 const Fab = React.forwardRef<HTMLButtonElement, FabProps>(
