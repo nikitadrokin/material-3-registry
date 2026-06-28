@@ -32,7 +32,7 @@ export default function DisclosureDemo() {
         <div className="overflow-hidden rounded-xl border border-border">
           <Accordion type="single" collapsible defaultValue="item-0">
             {FAQ.map((item, i) => (
-              <AccordionItem key={item.q} value={`item-${i}`} className="px-2 last:border-b-0">
+              <AccordionItem key={item.q} value={`item-${i}`} className="last:border-b-0">
                 <AccordionTrigger>{item.q}</AccordionTrigger>
                 <AccordionContent>{item.a}</AccordionContent>
               </AccordionItem>

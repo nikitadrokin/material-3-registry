@@ -6,7 +6,14 @@ import { ChevronDown } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
-/** Material 3 accordion / expandable list. */
+/**
+ * Material 3 expandable list.
+ *
+ * Each item is a list row (56dp min height, 16dp horizontal padding,
+ * on-surface title-medium) divided by an outline-variant rule. The trigger
+ * carries a full-bleed, rectangular state layer the way an MD3 list item
+ * does — not the rounded, inset hover of the shadcn default.
+ */
 const Accordion = AccordionPrimitive.Root
 
 const AccordionItem = React.forwardRef<
@@ -25,13 +32,13 @@ const AccordionTrigger = React.forwardRef<
     <AccordionPrimitive.Trigger
       ref={ref}
       className={cn(
-        "md-state-layer flex flex-1 items-center justify-between rounded-md px-2 py-4 text-base font-medium outline-none transition-all focus-visible:ring-2 focus-visible:ring-ring [&[data-state=open]>svg]:rotate-180",
+        "md-state-layer flex flex-1 items-center justify-between gap-4 px-4 py-4 text-base font-medium leading-6 tracking-[0.0094em] text-foreground outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring [&[data-state=open]>svg]:rotate-180",
         className
       )}
       {...props}
     >
       {children}
-      <ChevronDown className="size-5 shrink-0 text-muted-foreground transition-transform duration-200" />
+      <ChevronDown className="size-6 shrink-0 text-muted-foreground transition-transform duration-200 ease-[var(--ease-emphasized-decel)]" />
     </AccordionPrimitive.Trigger>
   </AccordionPrimitive.Header>
 ))
@@ -43,10 +50,10 @@ const AccordionContent = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
   <AccordionPrimitive.Content
     ref={ref}
-    className="overflow-hidden text-sm text-muted-foreground data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
+    className="overflow-hidden text-sm leading-5 tracking-[0.0179em] text-muted-foreground data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
     {...props}
   >
-    <div className={cn("px-2 pb-4 pt-0", className)}>{children}</div>
+    <div className={cn("px-4 pb-4 pt-0", className)}>{children}</div>
   </AccordionPrimitive.Content>
 ))
 AccordionContent.displayName = AccordionPrimitive.Content.displayName

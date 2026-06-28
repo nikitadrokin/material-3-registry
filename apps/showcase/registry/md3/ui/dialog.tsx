@@ -6,7 +6,14 @@ import { X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
-/** Material 3 basic dialog. 28dp corner radius, elevation level 3, scrim 32%. */
+/**
+ * Material 3 basic dialog. 28dp corner radius, elevation level 3, scrim 32%.
+ *
+ * Unlike the shadcn default, there is no built-in close (X) affordance — an MD3
+ * basic dialog is dismissed via its action buttons or the scrim. Pass
+ * `showClose` only when you specifically need the icon. `DialogHeader` accepts
+ * an optional hero `icon`, which switches the header to the centered MD3 layout.
+ */
 const Dialog = DialogPrimitive.Root
 const DialogTrigger = DialogPrimitive.Trigger
 const DialogPortal = DialogPrimitive.Portal
@@ -54,8 +61,27 @@ const DialogContent = React.forwardRef<
 ))
 DialogContent.displayName = DialogPrimitive.Content.displayName
 
-const DialogHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn("flex flex-col gap-2 text-left", className)} {...props} />
+const DialogHeader = ({
+  className,
+  icon,
+  children,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement> & { icon?: React.ReactNode }) => (
+  <div
+    className={cn(
+      "flex flex-col gap-2",
+      icon ? "items-center text-center" : "text-left",
+      className
+    )}
+    {...props}
+  >
+    {icon ? (
+      <span className="mb-2 grid place-items-center text-foreground [&_svg]:size-6">
+        {icon}
+      </span>
+    ) : null}
+    {children}
+  </div>
 )
 DialogHeader.displayName = "DialogHeader"
 
@@ -68,7 +94,7 @@ const DialogTitle = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
 >(({ className, ...props }, ref) => (
-  <DialogPrimitive.Title ref={ref} className={cn("text-2xl font-normal leading-tight", className)} {...props} />
+  <DialogPrimitive.Title ref={ref} className={cn("text-2xl font-normal leading-8 text-foreground", className)} {...props} />
 ))
 DialogTitle.displayName = DialogPrimitive.Title.displayName
 
